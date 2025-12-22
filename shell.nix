@@ -14,7 +14,7 @@ pkgs.mkShell {
 
 
   # Environment variables
-  GOPRIVATE = "github.com/SnackLog/*";
+  GOPRIVATE = "";
 
 
   shellHook = ''
