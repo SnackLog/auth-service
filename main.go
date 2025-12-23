@@ -1,12 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	serviceConfig "github.com/SnackLog/service-config-lib"
 )
 
 func main() {
-	serviceConfig.LoadConfig()
+	err := serviceConfig.LoadConfig()
+	if err != nil {
+		panic(fmt.Sprintf("Failed to load service configuration: %v", err))
+	}
+
 	log.Println(serviceConfig.GetConfig().ServiceName)
 }
