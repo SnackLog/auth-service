@@ -5,7 +5,7 @@ import (
 	"log"
 
 	serviceConfig "github.com/SnackLog/service-config-lib"
-	"github.com/gin-gonic/gin"
+	//"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -16,7 +16,8 @@ func main() {
 
 	log.Println(serviceConfig.GetConfig().ServiceName)
 
-	router := gin.Default()
+	//router := gin.Default()
+
 
 	
 }
