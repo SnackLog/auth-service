@@ -34,5 +34,5 @@ func main() {
 	auth.GET("/session/:id", handlers.DummyHandler)
 	auth.DELETE("/session/:id", handlers.DummyHandler)
 
-	router.Run()
+	router.Run(":80")
 }
