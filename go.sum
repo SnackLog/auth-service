@@ -1,3 +1,5 @@
+github.com/SnackLog/database-config-lib v0.0.1 h1:FAmbrMZ1cWOflsWhrfKBrdelXp3AwjZjC86Ke0e0C1Q=
+github.com/SnackLog/database-config-lib v0.0.1/go.mod h1:997JZ6UfTIC+ggf0cYUenAEI+bLhl3csKpnkss12BW8=
 github.com/SnackLog/service-config-lib v0.1.1 h1:CXuMxhUai5lp8em5O5nuqAtoJftLqipehaiuYaFubGU=
 github.com/SnackLog/service-config-lib v0.1.1/go.mod h1:FekzUIjuiOjTfOisRBFt8sBS+fOW8nGrAxNPoxY7Yo0=
 github.com/bytedance/sonic v1.14.0 h1:/OfKt8HFw0kh2rj8N0F6C/qPGRESq0BbaNZgcNXXzQQ=

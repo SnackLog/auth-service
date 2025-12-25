@@ -5,6 +5,11 @@ services:
       - SERVICE_CONFIG_APP_NAME=SnackLog
       - SERVICE_CONFIG_API_ROOT_URL=localhost
       - SERVICE_CONFIG_SERVICE_NAME=auth-service
+      - DATABASE_CONFIG_DB_HOST=auth-service-db
+      - DATABASE_CONFIG_DB_PORT=5432
+      - DATABASE_CONFIG_DB_USER=auth_service
+      - DATABASE_CONFIG_DB_PASS=238121a0-3c9b-4d9a-bac1-4badeb3682ee
+      - DATABASE_CONFIG_DB_NAME=auth_service
       - GIN_MODE=debug
     build: .
     ports:
