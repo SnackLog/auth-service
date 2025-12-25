@@ -5,6 +5,7 @@ import (
 	"log"
 
 	serviceConfig "github.com/SnackLog/service-config-lib"
+	databaseConfig "github.com/SnackLog/database-config-lib"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
@@ -15,6 +16,11 @@ func main() {
 	err := serviceConfig.LoadConfig()
 	if err != nil {
 		panic(fmt.Sprintf("Failed to load service configuration: %v", err))
+	}
+
+	err = databaseConfig.LoadConfig()
+	if err != nil {
+		panic(fmt.Sprintf("Failed to load database configuration: %v", err))
 	}
 
 	log.Println(serviceConfig.GetConfig().ServiceName)
