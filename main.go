@@ -5,7 +5,10 @@ import (
 	"log"
 
 	serviceConfig "github.com/SnackLog/service-config-lib"
-	//"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
+
+	"github.com/SnackLog/auth-service/internal/handlers"
 )
 
 func main() {
@@ -16,6 +19,21 @@ func main() {
 
 	log.Println(serviceConfig.GetConfig().ServiceName)
 
-	//router := gin.Default()
+	router := gin.Default()
+	router.Use(cors.Default())
 
+	auth := router.Group("/auth")
+	auth.GET("/user", handlers.DummyHandler)
+	auth.POST("/user", handlers.DummyHandler)
+	auth.DELETE("/user", handlers.DummyHandler)
+	auth.PATCH("/user", handlers.DummyHandler)
+	
+	auth.POST("/session", handlers.DummyHandler)
+	auth.DELETE("/session", handlers.DummyHandler)
+
+	auth.GET("/session/:id", handlers.DummyHandler)
+	auth.DELETE("/session/:id", handlers.DummyHandler)
+
+	router.Run()
 }
+
