@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	serviceConfig "github.com/SnackLog/service-config-lib"
 	databaseConfig "github.com/SnackLog/database-config-lib"
+	serviceConfig "github.com/SnackLog/service-config-lib"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
