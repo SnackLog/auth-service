@@ -19,7 +19,7 @@ services:
       auth-db:
         condition: service_healthy
 
-  # Prostgres Database Service
+  # Postgres Database Service
   auth-db:
     image: postgres:18
     container_name: auth-db
