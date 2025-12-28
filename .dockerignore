@@ -1,0 +1,16 @@
+.git
+.github
+.gitignore
+
+flake.nix
+flake.lock
+Makefile
+README.md
+
+*.exe
+*.test
+*.out
+coverage.*
+.env
+data/
+data-clean/
