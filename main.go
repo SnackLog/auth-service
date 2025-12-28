@@ -13,17 +13,8 @@ import (
 )
 
 func main() {
-	err := serviceConfig.LoadConfig()
-	if err != nil {
-		panic(fmt.Sprintf("Failed to load service configuration: %v", err))
-	}
-
-	err = databaseConfig.LoadConfig()
-	if err != nil {
-		panic(fmt.Sprintf("Failed to load database configuration: %v", err))
-	}
-
-	log.Println(serviceConfig.GetConfig().ServiceName)
+	loadConfig()
+	doMigrations()
 
 	router := gin.Default()
 	router.Use(cors.Default())
@@ -41,4 +32,20 @@ func main() {
 	auth.DELETE("/session/:id", handlers.DummyHandler)
 
 	router.Run(":80")
+}
+
+func doMigrations() {
+	panic("unimplemented")
+}
+
+func loadConfig() {
+	err := serviceConfig.LoadConfig()
+	if err != nil {
+		panic(fmt.Sprintf("Failed to load service configuration: %v", err))
+	}
+
+	err = databaseConfig.LoadConfig()
+	if err != nil {
+		panic(fmt.Sprintf("Failed to load database configuration: %v", err))
+	}
 }
