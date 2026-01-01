@@ -70,6 +70,7 @@ func migrateDatabase() {
 }
 
 // migrationFiles embeds SQL migration files.
+//
 //go:embed db/migrations/*.sql
 var migrationFiles embed.FS
 
