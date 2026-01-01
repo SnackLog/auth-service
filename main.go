@@ -15,7 +15,7 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/golang-migrate/migrate/v4/source/iofs"
 
-	"github.com/SnackLog/auth-service/internal/db"
+	"github.com/SnackLog/auth-service/internal/database"
 	"github.com/SnackLog/auth-service/internal/handlers"
 )
 
@@ -54,7 +54,7 @@ func setupAuthEndpoints(auth *gin.RouterGroup) {
 
 // initDatabaseConnection initializes the database connection.
 func initDatabaseConnection() *sql.DB {
-	db, err := db.Connect(databaseConfig.GetDatabaseConnectionString())
+	db, err := database.Connect(databaseConfig.GetDatabaseConnectionString())
 	if err != nil {
 		panic(fmt.Errorf("Failed to connect to database: %v", err))
 	}
