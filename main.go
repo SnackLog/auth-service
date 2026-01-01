@@ -21,12 +21,13 @@ import (
 
 func main() {
 	initConfig()
-	initDatabase()
+	migrateDatabase()
 	_ = initDatabaseConnection()
 
 	initApi()
 }
 
+// initApi initializes the API server and routes.
 func initApi() {
 	router := gin.Default()
 	router.Use(cors.Default())
@@ -37,6 +38,7 @@ func initApi() {
 	router.Run(":80")
 }
 
+// setupAuthEndpoints sets up the authentication-related API endpoints.
 func setupAuthEndpoints(auth *gin.RouterGroup) {
 	auth.GET("/user", handlers.DummyHandler)
 	auth.POST("/user", handlers.DummyHandler)
@@ -50,6 +52,7 @@ func setupAuthEndpoints(auth *gin.RouterGroup) {
 	auth.DELETE("/session/:id", handlers.DummyHandler)
 }
 
+// initDatabaseConnection initializes the database connection.
 func initDatabaseConnection() *sql.DB {
 	db, err := db.Connect(databaseConfig.GetDatabaseConnectionString())
 	if err != nil {
@@ -58,16 +61,19 @@ func initDatabaseConnection() *sql.DB {
 	return db
 }
 
-func initDatabase() {
+// migrateDatabase runs database migrations.
+func migrateDatabase() {
 	err := doMigrations()
 	if err != nil {
 		panic(fmt.Sprintf("Database migration failed: %v", err))
 	}
 }
 
+// migrationFiles embeds SQL migration files.
 //go:embed db/migrations/*.sql
 var migrationFiles embed.FS
 
+// doMigrations performs database migrations using embedded SQL files.
 func doMigrations() error {
 	migrationDriver, err := iofs.New(migrationFiles, "db/migrations")
 	if err != nil {
@@ -92,6 +98,7 @@ func doMigrations() error {
 	return nil
 }
 
+// initConfig initializes service and database configurations.
 func initConfig() {
 	err := serviceConfig.LoadConfig()
 	if err != nil {
