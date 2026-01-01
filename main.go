@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"embed"
 	"fmt"
 
@@ -14,20 +15,31 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/golang-migrate/migrate/v4/source/iofs"
 
+	"github.com/SnackLog/auth-service/internal/database"
 	"github.com/SnackLog/auth-service/internal/handlers"
 )
 
 func main() {
-	loadConfig()
-	err := doMigrations()
-	if err != nil {
-		panic(fmt.Sprintf("Database migration failed: %v", err))
-	}
+	initConfig()
+	migrateDatabase()
+	_ = initDatabaseConnection()
 
+	initApi()
+}
+
+// initApi initializes the API server and routes.
+func initApi() {
 	router := gin.Default()
 	router.Use(cors.Default())
 
 	auth := router.Group("/auth")
+	setupAuthEndpoints(auth)
+
+	router.Run(":80")
+}
+
+// setupAuthEndpoints sets up the authentication-related API endpoints.
+func setupAuthEndpoints(auth *gin.RouterGroup) {
 	auth.GET("/user", handlers.DummyHandler)
 	auth.POST("/user", handlers.DummyHandler)
 	auth.DELETE("/user", handlers.DummyHandler)
@@ -38,13 +50,31 @@ func main() {
 
 	auth.GET("/session/:id", handlers.DummyHandler)
 	auth.DELETE("/session/:id", handlers.DummyHandler)
-
-	router.Run(":80")
 }
 
+// initDatabaseConnection initializes the database connection.
+func initDatabaseConnection() *sql.DB {
+	db, err := database.Connect(databaseConfig.GetDatabaseConnectionString())
+	if err != nil {
+		panic(fmt.Errorf("Failed to connect to database: %v", err))
+	}
+	return db
+}
+
+// migrateDatabase runs database migrations.
+func migrateDatabase() {
+	err := doMigrations()
+	if err != nil {
+		panic(fmt.Sprintf("Database migration failed: %v", err))
+	}
+}
+
+// migrationFiles embeds SQL migration files.
+//
 //go:embed db/migrations/*.sql
 var migrationFiles embed.FS
 
+// doMigrations performs database migrations using embedded SQL files.
 func doMigrations() error {
 	migrationDriver, err := iofs.New(migrationFiles, "db/migrations")
 	if err != nil {
@@ -69,7 +99,8 @@ func doMigrations() error {
 	return nil
 }
 
-func loadConfig() {
+// initConfig initializes service and database configurations.
+func initConfig() {
 	err := serviceConfig.LoadConfig()
 	if err != nil {
 		panic(fmt.Sprintf("Failed to load service configuration: %v", err))
