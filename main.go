@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"embed"
 	"fmt"
 
@@ -14,20 +15,29 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/golang-migrate/migrate/v4/source/iofs"
 
+	"github.com/SnackLog/auth-service/internal/db"
 	"github.com/SnackLog/auth-service/internal/handlers"
 )
 
 func main() {
-	loadConfig()
-	err := doMigrations()
-	if err != nil {
-		panic(fmt.Sprintf("Database migration failed: %v", err))
-	}
+	initConfig()
+	initDatabase()
+	_ = initDatabaseConnection()
 
+	initApi()
+}
+
+func initApi() {
 	router := gin.Default()
 	router.Use(cors.Default())
 
 	auth := router.Group("/auth")
+	setupAuthEndpoints(auth)
+
+	router.Run(":80")
+}
+
+func setupAuthEndpoints(auth *gin.RouterGroup) {
 	auth.GET("/user", handlers.DummyHandler)
 	auth.POST("/user", handlers.DummyHandler)
 	auth.DELETE("/user", handlers.DummyHandler)
@@ -38,8 +48,21 @@ func main() {
 
 	auth.GET("/session/:id", handlers.DummyHandler)
 	auth.DELETE("/session/:id", handlers.DummyHandler)
+}
 
-	router.Run(":80")
+func initDatabaseConnection() *sql.DB {
+	db, err := db.Connect(databaseConfig.GetDatabaseConnectionString())
+	if err != nil {
+		panic(fmt.Errorf("Failed to connect to database: %v", err))
+	}
+	return db
+}
+
+func initDatabase() {
+	err := doMigrations()
+	if err != nil {
+		panic(fmt.Sprintf("Database migration failed: %v", err))
+	}
 }
 
 //go:embed db/migrations/*.sql
@@ -69,7 +92,7 @@ func doMigrations() error {
 	return nil
 }
 
-func loadConfig() {
+func initConfig() {
 	err := serviceConfig.LoadConfig()
 	if err != nil {
 		panic(fmt.Sprintf("Failed to load service configuration: %v", err))
