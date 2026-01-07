@@ -16,40 +16,56 @@ import (
 	"github.com/golang-migrate/migrate/v4/source/iofs"
 
 	"github.com/SnackLog/auth-service/internal/database"
-	"github.com/SnackLog/auth-service/internal/handlers"
+	"github.com/SnackLog/auth-service/internal/handlers/sessionhandler"
+	"github.com/SnackLog/auth-service/internal/handlers/userhandler"
 )
 
 func main() {
 	initConfig()
 	migrateDatabase()
-	_ = initDatabaseConnection()
+	db := initDatabaseConnection()
 
-	initApi()
+	initApi(db)
 }
 
 // initApi initializes the API server and routes.
-func initApi() {
+func initApi(db *sql.DB) {
 	router := gin.Default()
 	router.Use(cors.Default())
 
 	auth := router.Group("/auth")
-	setupAuthEndpoints(auth)
+	setupAuthEndpoints(auth, db)
 
 	router.Run(":80")
 }
 
 // setupAuthEndpoints sets up the authentication-related API endpoints.
-func setupAuthEndpoints(auth *gin.RouterGroup) {
-	auth.GET("/user", handlers.DummyHandler)
-	auth.POST("/user", handlers.DummyHandler)
-	auth.DELETE("/user", handlers.DummyHandler)
-	auth.PATCH("/user", handlers.DummyHandler)
+func setupAuthEndpoints(auth *gin.RouterGroup, db *sql.DB) {
+	setupUserEndpoints(db, auth)
 
-	auth.POST("/session", handlers.DummyHandler)
-	auth.DELETE("/session", handlers.DummyHandler)
+	setupSessionEndpoints(db, auth)
+}
 
-	auth.GET("/session/:id", handlers.DummyHandler)
-	auth.DELETE("/session/:id", handlers.DummyHandler)
+func setupSessionEndpoints(db *sql.DB, auth *gin.RouterGroup) {
+	sessionController := sessionhandler.SessionController{
+		DB: db,
+	}
+
+	auth.GET("/session/:id", sessionController.GetId)
+	auth.POST("/session", sessionController.Post)
+	auth.DELETE("/session", sessionController.Delete)
+	auth.DELETE("/session/:id", sessionController.DeleteId)
+}
+
+func setupUserEndpoints(db *sql.DB, auth *gin.RouterGroup) {
+	userController := userhandler.UserController{
+		DB: db,
+	}
+
+	auth.GET("/user", userController.Get)
+	auth.POST("/user", userController.Post)
+	auth.PATCH("/user", userController.Patch)
+	auth.DELETE("/user", userController.Delete)
 }
 
 // initDatabaseConnection initializes the database connection.
