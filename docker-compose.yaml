@@ -14,7 +14,7 @@ services:
       - GIN_MODE=debug
     build: .
     ports:
-      - 8080:8080
+      - 8080:80
     depends_on:
       auth-db:
         condition: service_healthy
