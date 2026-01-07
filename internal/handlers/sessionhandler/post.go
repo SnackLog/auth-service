@@ -8,5 +8,5 @@ import (
 
 // Post Creates a new session
 func (s *SessionController) Post(c *gin.Context) {
-	c.AbortWithStatus(http.StatusNotImplemented)	
+	c.AbortWithStatus(http.StatusNotImplemented)
 }

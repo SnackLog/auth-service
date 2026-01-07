@@ -8,5 +8,5 @@ import (
 
 // Delete Deletes all sessions
 func (s *SessionController) Delete(c *gin.Context) {
-	c.AbortWithStatus(http.StatusNotImplemented)	
+	c.AbortWithStatus(http.StatusNotImplemented)
 }

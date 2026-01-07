@@ -8,5 +8,5 @@ import (
 
 // GetID Retrieves session by ID
 func (s *SessionController) GetID(c *gin.Context) {
-	c.AbortWithStatus(http.StatusNotImplemented)	
+	c.AbortWithStatus(http.StatusNotImplemented)
 }
