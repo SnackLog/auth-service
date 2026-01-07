@@ -6,6 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (user *UserController) Delete(c *gin.Context) {
+func (u *UserController) Delete(c *gin.Context) {
 	c.AbortWithStatus(http.StatusNotImplemented)	
 }

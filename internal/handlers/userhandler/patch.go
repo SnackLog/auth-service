@@ -6,6 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (user *UserController) Patch(c *gin.Context) {
+func (u *UserController) Patch(c *gin.Context) {
 	c.AbortWithStatus(http.StatusNotImplemented)	
 }

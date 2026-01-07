@@ -6,6 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (sessionController *SessionController) DeleteID(c *gin.Context) {
+func (s *SessionController) DeleteID(c *gin.Context) {
 	c.AbortWithStatus(http.StatusNotImplemented)	
 }
