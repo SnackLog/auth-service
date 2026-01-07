@@ -1,7 +1,11 @@
 package userhandler
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
 
 func (user *UserController) Delete(c *gin.Context) {
-	
+	c.AbortWithStatus(http.StatusNotImplemented)	
 }
