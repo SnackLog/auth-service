@@ -51,10 +51,10 @@ func setupSessionEndpoints(db *sql.DB, auth *gin.RouterGroup) {
 		DB: db,
 	}
 
-	auth.GET("/session/:id", sessionController.GetId)
+	auth.GET("/session/:id", sessionController.GetID)
 	auth.POST("/session", sessionController.Post)
 	auth.DELETE("/session", sessionController.Delete)
-	auth.DELETE("/session/:id", sessionController.DeleteId)
+	auth.DELETE("/session/:id", sessionController.DeleteID)
 }
 
 func setupUserEndpoints(db *sql.DB, auth *gin.RouterGroup) {
