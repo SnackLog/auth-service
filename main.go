@@ -24,6 +24,7 @@ func main() {
 	initConfig()
 	migrateDatabase()
 	db := initDatabaseConnection()
+	defer db.Close()
 
 	initApi(db)
 }
