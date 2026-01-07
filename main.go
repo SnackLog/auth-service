@@ -41,12 +41,12 @@ func initApi(db *sql.DB) {
 
 // setupAuthEndpoints sets up the authentication-related API endpoints.
 func setupAuthEndpoints(auth *gin.RouterGroup, db *sql.DB) {
-	setupUserEndpoints(db, auth)
+	setupUserEndpoints(auth, db)
 
-	setupSessionEndpoints(db, auth)
+	setupSessionEndpoints(auth, db)
 }
 
-func setupSessionEndpoints(db *sql.DB, auth *gin.RouterGroup) {
+func setupSessionEndpoints(auth *gin.RouterGroup, db *sql.DB) {
 	sessionController := sessionhandler.SessionController{
 		DB: db,
 	}
@@ -57,7 +57,7 @@ func setupSessionEndpoints(db *sql.DB, auth *gin.RouterGroup) {
 	auth.DELETE("/session/:id", sessionController.DeleteID)
 }
 
-func setupUserEndpoints(db *sql.DB, auth *gin.RouterGroup) {
+func setupUserEndpoints(auth *gin.RouterGroup, db *sql.DB) {
 	userController := userhandler.UserController{
 		DB: db,
 	}
