@@ -11,7 +11,7 @@ require (
 )
 
 require (
-	github.com/LightJack05/argon-hash-utils v0.0.1
+	github.com/LightJack05/argon-hash-utils v0.0.2
 	github.com/bytedance/sonic v1.14.0 // indirect
 	github.com/bytedance/sonic/loader v0.3.0 // indirect
 	github.com/cloudwego/base64x v0.1.6 // indirect

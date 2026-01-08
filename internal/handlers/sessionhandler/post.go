@@ -2,6 +2,7 @@ package sessionhandler
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	argonhashutils "github.com/LightJack05/argon-hash-utils"
@@ -24,6 +25,7 @@ func (s *SessionController) Post(c *gin.Context) {
 
 	message, err := s.authenticateUser(body.Username, body.Password)
 	if err != nil {
+		log.Printf("Could not authenticate account: %v", err)
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Authentication failed"})
 		return
 	}
@@ -33,7 +35,6 @@ func (s *SessionController) Post(c *gin.Context) {
 func (s *SessionController) authenticateUser(username, password string) (string, error) {
 	user, err := user.GetUserByUsername(s.DB, username)
 	if err != nil {
-		// TODO: Should we leak this to the client?
 		return "", fmt.Errorf("failed to get user: %v", err)
 	}
 	if user == nil {
@@ -42,7 +43,6 @@ func (s *SessionController) authenticateUser(username, password string) (string,
 
 	hash, err := argonhashutils.ParseHash(user.PasswordHash)
 	if err != nil {
-		// TODO: Should we leak this to the client?
 		return "", fmt.Errorf("failed to parse password hash: %v", err)
 	}
 
