@@ -18,6 +18,11 @@ services:
     depends_on:
       auth-db:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # Postgres Database Service
   auth-db:
@@ -37,3 +42,4 @@ services:
       test: ["CMD-SHELL", "pg_isready -U auth_service"]
       interval: 5s
       timeout: 2s
+

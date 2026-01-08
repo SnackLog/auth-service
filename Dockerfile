@@ -16,6 +16,8 @@ RUN go build -o /app/auth-service
 FROM alpine:latest
 ENV GIN_MODE=release
 
+RUN apk add curl
+
 WORKDIR /app
 COPY LICENSES /licenses
 COPY --from=build /app/auth-service .
