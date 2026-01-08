@@ -16,6 +16,7 @@ import (
 	"github.com/golang-migrate/migrate/v4/source/iofs"
 
 	"github.com/SnackLog/auth-service/internal/database"
+	"github.com/SnackLog/auth-service/internal/handlers/health"
 	"github.com/SnackLog/auth-service/internal/handlers/sessionhandler"
 	"github.com/SnackLog/auth-service/internal/handlers/userhandler"
 )
@@ -36,6 +37,7 @@ func initApi(db *sql.DB) {
 
 	auth := router.Group("/auth")
 	setupAuthEndpoints(auth, db)
+	setupHealthEndpoints(router, db)
 
 	router.Run(":80")
 }
@@ -45,6 +47,15 @@ func setupAuthEndpoints(auth *gin.RouterGroup, db *sql.DB) {
 	setupUserEndpoints(auth, db)
 
 	setupSessionEndpoints(auth, db)
+
+}
+
+// setupHealthEndpoints sets up health check endpoints
+func setupHealthEndpoints(engine *gin.Engine, db *sql.DB) {
+	healthController := health.HealthController{
+		DB: db,
+	}
+	engine.GET("/health", healthController.Get)
 }
 
 func setupSessionEndpoints(auth *gin.RouterGroup, db *sql.DB) {
