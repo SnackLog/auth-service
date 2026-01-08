@@ -50,6 +50,7 @@ func setupAuthEndpoints(auth *gin.RouterGroup, db *sql.DB) {
 
 }
 
+// setupHealthEndpoints sets up health check endpoints
 func setupHealthEndpoints(engine *gin.Engine, db *sql.DB) {
 	healthController := health.HealthController{
 		DB: db,
