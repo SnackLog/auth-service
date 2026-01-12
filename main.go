@@ -15,6 +15,7 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/golang-migrate/migrate/v4/source/iofs"
 
+	"github.com/SnackLog/auth-service/internal/config"
 	"github.com/SnackLog/auth-service/internal/database"
 	"github.com/SnackLog/auth-service/internal/handlers/health"
 	"github.com/SnackLog/auth-service/internal/handlers/sessionhandler"
@@ -129,7 +130,12 @@ func doMigrations() error {
 
 // initConfig initializes service and database configurations.
 func initConfig() {
-	err := serviceConfig.LoadConfig()
+	err := config.LoadConfig()
+	if err != nil {
+		panic(fmt.Sprintf("Failed to load configuration: %v", err))
+	}
+
+	err = serviceConfig.LoadConfig()
 	if err != nil {
 		panic(fmt.Sprintf("Failed to load service configuration: %v", err))
 	}

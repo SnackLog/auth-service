@@ -6,9 +6,12 @@ import (
 	"net/http"
 
 	argonhashutils "github.com/LightJack05/argon-hash-utils"
+	"github.com/SnackLog/auth-service/internal/config"
 	"github.com/SnackLog/auth-service/internal/database/user"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 )
+
 
 type loginRequestBody struct {
 	Username string `json:"username" binding:"required"`
@@ -51,4 +54,10 @@ func (s *SessionController) authenticateUser(username, password string) (string,
 		return "", fmt.Errorf("invalid password")
 	}
 	return "success!", nil
+}
+
+func (s *SessionController) createAuthToken(username, password string) (string, error) {
+	_ = config.GetConfig().JwtSignKey
+	// TODO: https://pkg.go.dev/github.com/golang-jwt/jwt/v5#example-NewWithClaims-CustomClaimsType
+	return "", nil;
 }
