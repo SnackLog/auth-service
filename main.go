@@ -20,6 +20,7 @@ import (
 	"github.com/SnackLog/auth-service/internal/handlers/health"
 	"github.com/SnackLog/auth-service/internal/handlers/sessionhandler"
 	"github.com/SnackLog/auth-service/internal/handlers/userhandler"
+	"github.com/SnackLog/auth-service/internal/middleware/auth"
 )
 
 func main() {
@@ -59,15 +60,17 @@ func setupHealthEndpoints(engine *gin.Engine, db *sql.DB) {
 	engine.GET("/health", healthController.Get)
 }
 
-func setupSessionEndpoints(auth *gin.RouterGroup, db *sql.DB) {
+func setupSessionEndpoints(authRouter *gin.RouterGroup, db *sql.DB) {
 	sessionController := sessionhandler.SessionController{
 		DB: db,
 	}
+	authController := auth.AuthController{
+		DB: db,
+	}
 
-	auth.GET("/session", sessionController.Get)
-	auth.POST("/session", sessionController.Post)
-	auth.DELETE("/session", sessionController.Delete)
-	auth.DELETE("/session/all", sessionController.DeleteAll)
+	authRouter.GET("/session", authController.Authenticate, sessionController.Get)
+	authRouter.POST("/session", sessionController.Post)
+	authRouter.DELETE("/session", authController.Authenticate, sessionController.Delete)
 }
 
 func setupUserEndpoints(auth *gin.RouterGroup, db *sql.DB) {

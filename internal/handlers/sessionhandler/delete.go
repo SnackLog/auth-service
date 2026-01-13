@@ -16,13 +16,16 @@ type deleteSessionBody struct {
 func (s *SessionController) Delete(c *gin.Context) {
 	var body deleteSessionBody
 	if err := c.ShouldBindJSON(&body); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
 		return
 	}
 	claims, err := crypto.ParseAndValidateToken(body.Token)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 		return
+	}
+	if claims.Subject != c.GetString("username") {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 	}
 	_, err = revokedtokens.RevokeToken(s.DB, claims.ID)
 
