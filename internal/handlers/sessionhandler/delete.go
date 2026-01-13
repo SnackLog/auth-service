@@ -8,13 +8,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type DeleteSessionBody struct {
+type deleteSessionBody struct {
 	Token string `json:"token" binding:"required"`
 }
 
 // Delete Revokes a session of a user
 func (s *SessionController) Delete(c *gin.Context) {
-	var body DeleteSessionBody
+	var body deleteSessionBody
 	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
 		return
