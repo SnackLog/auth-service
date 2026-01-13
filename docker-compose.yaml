@@ -27,6 +27,7 @@ services:
       - DATABASE_CONFIG_DB_PASS=238121a0-3c9b-4d9a-bac1-4badeb3682ee
       - DATABASE_CONFIG_DB_NAME=auth_service
       - DATABASE_CONFIG_DISABLE_SSL=true
+      - JWT_SIGN_KEY=1419c899-84dc-424b-9d6d-1e7da5026f98
       - GIN_MODE=debug
     build: .
     ports:
