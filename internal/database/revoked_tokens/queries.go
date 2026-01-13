@@ -9,7 +9,7 @@ import (
 // IsTokenRevoked Checks wether the given token is revoked
 func IsTokenRevoked(db *sql.DB, uuid string) (bool, error) {
 	var exists bool
-	err := db.QueryRow("SELECT EXISTS(SELECT 1 FROM revoked_tokens WHERE token_uuid = ?)", uuid).Scan(&exists)
+	err := db.QueryRow("SELECT EXISTS(SELECT 1 FROM revoked_tokens WHERE token_uuid = $1)", uuid).Scan(&exists)
 	if err != nil {
 		// In case of error, assume the token is revoked
 		return true, err
