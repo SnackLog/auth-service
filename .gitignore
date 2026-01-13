@@ -32,4 +32,3 @@ go.work.sum
 # .vscode/
 data/
 data-clean/
-flake.lock
