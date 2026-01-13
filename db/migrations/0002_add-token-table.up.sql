@@ -1,5 +1,5 @@
 CREATE TABLE revoked_tokens (
     id SERIAL PRIMARY KEY,
-    token_uuid VARCHAR(100) NOT NULL,
+    token_uuid VARCHAR(100) UNIQUE NOT NULL,
     revoked_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
