@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// GetUserByUsername returns a matching user
 func GetUserByUsername(db *sql.DB, username string) (*User, error) {
 	// query the table users to get user by username
 	sqlStatement := `SELECT id, username, display_name, password_hash FROM users WHERE username=$1`
@@ -21,6 +22,7 @@ func GetUserByUsername(db *sql.DB, username string) (*User, error) {
 
 }
 
+// CreateUser creates a new user
 func CreateUser(db *sql.DB, user *User) error {
 	// insert into table users
 	sqlStatement := `INSERT INTO users (username, display_name, password_hash) VALUES ($1, $2, $3)`
