@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func GetUserByUsername(db *sql.DB, username string) (*User, error) { 
+func GetUserByUsername(db *sql.DB, username string) (*User, error) {
 	// query the table users to get user by username
 	sqlStatement := `SELECT id, username, display_name, password_hash FROM users WHERE username=$1`
 	var user User

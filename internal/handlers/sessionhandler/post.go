@@ -6,12 +6,10 @@ import (
 	"net/http"
 
 	argonhashutils "github.com/LightJack05/argon-hash-utils"
-	"github.com/SnackLog/auth-service/internal/config"
+	"github.com/SnackLog/auth-service/internal/crypto"
 	"github.com/SnackLog/auth-service/internal/database/user"
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt"
 )
-
 
 type loginRequestBody struct {
 	Username string `json:"username" binding:"required"`
@@ -26,38 +24,45 @@ func (s *SessionController) Post(c *gin.Context) {
 		return
 	}
 
-	message, err := s.authenticateUser(body.Username, body.Password)
+	authenticated, err := s.isCredentialsValid(body.Username, body.Password)
 	if err != nil {
 		log.Printf("Could not authenticate account: %v", err)
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Authentication failed"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": message})
+	if !authenticated {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Authentication failed"})
+		return
+	}
+	userToken, err := crypto.CreateAuthToken(body.Username)
+	if err != nil {
+		log.Println(fmt.Errorf("error signing token: %v", err))
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "failed to sign token for authentication"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"token": userToken})
 }
 
-func (s *SessionController) authenticateUser(username, password string) (string, error) {
+func (s *SessionController) isCredentialsValid(username, password string) (bool, error) {
 	user, err := user.GetUserByUsername(s.DB, username)
 	if err != nil {
-		return "", fmt.Errorf("failed to get user: %v", err)
+		log.Println(fmt.Errorf("failed to get user: %v", err))
+		return false, nil
+
 	}
 	if user == nil {
-		return "", fmt.Errorf("user not found")
+		return false, nil
 	}
 
 	hash, err := argonhashutils.ParseHash(user.PasswordHash)
 	if err != nil {
-		return "", fmt.Errorf("failed to parse password hash: %v", err)
+		log.Println(fmt.Errorf("failed to parse password hash for user %v: %v", username, err))
+		return false, nil
 	}
 
 	sentHash := argonhashutils.HashPassword(password, hash.Memory, hash.Time, hash.Parallelism, hash.Salt, uint32(len(hash.Hash)))
 	if !argonhashutils.CompareHashes(hash, sentHash) {
-		return "", fmt.Errorf("invalid password")
+		return false, nil
 	}
-	return "success!", nil
-}
-
-func (s *SessionController) createAuthToken(username, password string) (string, error) {
-	_ = config.GetConfig().JwtSignKey
-	// TODO: https://pkg.go.dev/github.com/golang-jwt/jwt/v5#example-NewWithClaims-CustomClaimsType
-	return "", nil;
+	return true, nil
 }
