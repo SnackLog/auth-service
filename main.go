@@ -73,15 +73,18 @@ func setupSessionEndpoints(authRouter *gin.RouterGroup, db *sql.DB) {
 	authRouter.DELETE("/session", authController.Authenticate, sessionController.Delete)
 }
 
-func setupUserEndpoints(auth *gin.RouterGroup, db *sql.DB) {
+func setupUserEndpoints(authRouter *gin.RouterGroup, db *sql.DB) {
 	userController := userhandler.UserController{
 		DB: db,
 	}
+	authController := auth.AuthController{
+		DB: db,
+	}
 
-	auth.GET("/user", userController.Get)
-	auth.POST("/user", userController.Post)
-	auth.PATCH("/user", userController.Patch)
-	auth.DELETE("/user", userController.Delete)
+	authRouter.GET("/user", authController.Authenticate, userController.Get)
+	authRouter.POST("/user", userController.Post)
+	authRouter.PATCH("/user", authController.Authenticate, userController.Patch)
+	authRouter.DELETE("/user", authController.Authenticate, userController.Delete)
 }
 
 // initDatabaseConnection initializes the database connection.
