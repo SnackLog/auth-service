@@ -15,7 +15,8 @@ func (s *SessionController) GetID(c *gin.Context) {
 		c.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
-	claims, err := crypto.ParseAndValidateToken(authHeader)
+	token := authHeader[len("Bearer "):]
+	claims, err := crypto.ParseAndValidateToken(token)
 	if err != nil {
 		c.AbortWithStatus(http.StatusUnauthorized)
 		return
