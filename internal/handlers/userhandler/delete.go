@@ -17,5 +17,5 @@ func (u *UserController) Delete(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "User deleted successfully"})
+	c.Status(http.StatusNoContent)
 }
