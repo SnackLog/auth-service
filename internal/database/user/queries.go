@@ -32,3 +32,13 @@ func CreateUser(db *sql.DB, user *User) error {
 	}
 	return nil
 }
+
+func UpdateDisplayName(db *sql.DB, username, displayName string) error {
+	// update display_name in table users
+	sqlStatement := `UPDATE users SET display_name=$1 WHERE username=$2`
+	_, err := db.Exec(sqlStatement, displayName, username)
+	if err != nil {
+		return fmt.Errorf("failed to update display name in database: %v", err)
+	}
+	return nil
+}
