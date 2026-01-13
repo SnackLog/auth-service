@@ -2,7 +2,9 @@ package userhandler
 
 import (
 	"crypto/rand"
+	"log"
 	"net/http"
+	"syscall"
 
 	"github.com/SnackLog/auth-service/internal/crypto"
 	"github.com/SnackLog/auth-service/internal/database/user"
@@ -24,7 +26,13 @@ func (u *UserController) Post(c *gin.Context) {
 	}
 
 	salt := make([]byte, 16)
-	rand.Read(salt)
+	_, err := rand.Read(salt)
+	if err != nil {
+		log.Println("rand.Read returned an error, this should not happen! (This means the OS is unable to provide proper crypto APIs. Do NOT run this program here.)")
+		log.Println("Tearing down the application with SIGABRT...")
+		syscall.Kill(syscall.Getpid(), syscall.SIGABRT)
+	}
+
 
 	userStruct := &user.User{
 		Username:     body.Username,
