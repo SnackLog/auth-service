@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Get Retrieves session by ID
+// Get Retrieves session by it's token and returns relevant information
 func (s *SessionController) Get(c *gin.Context) {
 	authHeader := c.GetHeader("Authorization")
 	if authHeader == "" {
