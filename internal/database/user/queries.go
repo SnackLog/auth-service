@@ -42,3 +42,15 @@ func UpdateDisplayName(db *sql.DB, username, displayName string) error {
 	}
 	return nil
 }
+
+func DeleteUser(db *sql.DB, username string) error {
+	// TODO: Make sure to notify other services about user deletion
+
+	// delete the user object
+	sqlStatement := `DELETE FROM users WHERE username=$1`
+	_, err := db.Exec(sqlStatement, username)
+	if err != nil {
+		return fmt.Errorf("failed to delete user from database: %v", err)
+	}
+	return nil
+}
