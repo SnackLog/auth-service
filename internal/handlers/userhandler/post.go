@@ -21,7 +21,8 @@ type userBody struct {
 func (u *UserController) Post(c *gin.Context) {
 	var body userBody
 	if err := c.ShouldBindJSON(&body); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.Error(err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
 		return
 	}
 
