@@ -20,6 +20,7 @@ import (
 	"github.com/SnackLog/auth-service/internal/handlers/health"
 	"github.com/SnackLog/auth-service/internal/handlers/sessionhandler"
 	"github.com/SnackLog/auth-service/internal/handlers/userhandler"
+	"github.com/SnackLog/auth-service/internal/middleware/auth"
 )
 
 func main() {
@@ -59,26 +60,31 @@ func setupHealthEndpoints(engine *gin.Engine, db *sql.DB) {
 	engine.GET("/health", healthController.Get)
 }
 
-func setupSessionEndpoints(auth *gin.RouterGroup, db *sql.DB) {
+func setupSessionEndpoints(authRouter *gin.RouterGroup, db *sql.DB) {
 	sessionController := sessionhandler.SessionController{
 		DB: db,
 	}
-
-	auth.GET("/session", sessionController.Get)
-	auth.POST("/session", sessionController.Post)
-	auth.DELETE("/session", sessionController.Delete)
-	auth.DELETE("/session/all", sessionController.DeleteAll)
-}
-
-func setupUserEndpoints(auth *gin.RouterGroup, db *sql.DB) {
-	userController := userhandler.UserController{
+	authController := auth.AuthController{
 		DB: db,
 	}
 
-	auth.GET("/user", userController.Get)
-	auth.POST("/user", userController.Post)
-	auth.PATCH("/user", userController.Patch)
-	auth.DELETE("/user", userController.Delete)
+	authRouter.GET("/session", authController.Authenticate, sessionController.Get)
+	authRouter.POST("/session", sessionController.Post)
+	authRouter.DELETE("/session", authController.Authenticate, sessionController.Delete)
+}
+
+func setupUserEndpoints(authRouter *gin.RouterGroup, db *sql.DB) {
+	userController := userhandler.UserController{
+		DB: db,
+	}
+	authController := auth.AuthController{
+		DB: db,
+	}
+
+	authRouter.GET("/user", authController.Authenticate, userController.Get)
+	authRouter.POST("/user", userController.Post)
+	authRouter.PATCH("/user", authController.Authenticate, userController.Patch)
+	authRouter.DELETE("/user", authController.Authenticate, userController.Delete)
 }
 
 // initDatabaseConnection initializes the database connection.
