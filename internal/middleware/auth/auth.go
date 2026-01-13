@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/SnackLog/auth-service/internal/crypto"
@@ -37,7 +36,5 @@ func (a *AuthController) Authenticate(c *gin.Context) {
 	}
 
 	c.Set("username", claims.Subject)
-	log.Println(claims.Subject)
-	log.Println(c.GetString("username"))
 	c.Next()
 }

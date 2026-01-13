@@ -26,9 +26,10 @@ func (s *SessionController) Delete(c *gin.Context) {
 	}
 	if claims.Subject != c.GetString("username") {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+		return
 	}
-	_, err = revokedtokens.RevokeToken(s.DB, claims.ID)
 
+	_, err = revokedtokens.RevokeToken(s.DB, claims.ID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to revoke token"})
 		return
