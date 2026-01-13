@@ -12,7 +12,7 @@ type DeleteSessionBody struct {
 	Token string `json:"token" binding:"required"`
 }
 
-// Delete Deletes all sessions
+// Delete Revokes a session of a user
 func (s *SessionController) Delete(c *gin.Context) {
 	var body DeleteSessionBody
 	if err := c.ShouldBindJSON(&body); err != nil {
