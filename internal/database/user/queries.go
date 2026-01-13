@@ -20,3 +20,13 @@ func GetUserByUsername(db *sql.DB, username string) (*User, error) {
 	return &user, nil
 
 }
+
+func CreateUser(db *sql.DB, user *User) error {
+	// insert into table users
+	sqlStatement := `INSERT INTO users (username, display_name, password_hash) VALUES ($1, $2, $3)`
+	_, err := db.Exec(sqlStatement, user.Username, user.DisplayName, user.PasswordHash)
+	if err != nil {
+		return fmt.Errorf("failed to create user: %v", err)
+	}
+	return nil
+}
