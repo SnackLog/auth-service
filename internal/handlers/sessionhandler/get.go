@@ -8,8 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetID Retrieves session by ID
-func (s *SessionController) GetID(c *gin.Context) {
+// Get Retrieves session by ID
+func (s *SessionController) Get(c *gin.Context) {
 	authHeader := c.GetHeader("Authorization")
 	if authHeader == "" {
 		c.AbortWithStatus(http.StatusUnauthorized)
