@@ -8,8 +8,8 @@ import (
 )
 
 type userGetResponse struct {
-	Username    string
-	DisplayName string
+	Username    string `json:"username"`
+	DisplayName string `json:"display_name"`
 }
 
 // Get Retrieves an existing user
