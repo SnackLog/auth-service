@@ -15,6 +15,10 @@ func (s *SessionController) Get(c *gin.Context) {
 		c.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
+	if len(authHeader) < len("Bearer ")+1 || authHeader[:len("Bearer ")] != "Bearer " {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
 	token := authHeader[len("Bearer "):]
 	claims, err := crypto.ParseAndValidateToken(token)
 	if err != nil {
