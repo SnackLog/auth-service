@@ -23,6 +23,13 @@ import (
 	"github.com/SnackLog/auth-service/internal/middleware/auth"
 )
 
+// @title Authentication API for SnackLog
+// @version 1.0
+// @description SnackLog API for managing users and sessions
+// @BasePath /api/v1
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 func main() {
 	initConfig()
 	migrateDatabase()

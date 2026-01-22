@@ -12,7 +12,19 @@ type deleteSessionBody struct {
 	Token string `json:"token" binding:"required"`
 }
 
-// Delete Revokes a session of a user
+// Delete godoc
+// @Summary Logout
+// @Description Revokes a user session
+// @Tags session
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param body body deleteSessionBody true "Token to revoke"
+// @Success 204 "No Content"
+// @Failure 400 {object} map[string]string
+// @Failure 401 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /auth/session [delete]
 func (s *SessionController) Delete(c *gin.Context) {
 	var body deleteSessionBody
 	if err := c.ShouldBindJSON(&body); err != nil {

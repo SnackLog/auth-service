@@ -12,7 +12,17 @@ type userGetResponse struct {
 	DisplayName string `json:"display_name"`
 }
 
-// Get Retrieves an existing user
+// Get godoc
+// @Summary Get user profile
+// @Description Retrieves the profile of the authenticated user
+// @Tags user
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} userGetResponse
+// @Failure 401 "Unauthorized"
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /auth/user [get]
 func (u *UserController) Get(c *gin.Context) {
 	username := c.GetString("username")
 	user, err := user.GetUserByUsername(u.DB, username)

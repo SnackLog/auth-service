@@ -17,7 +17,17 @@ type userBody struct {
 	DisplayName string `json:"display_name" binding:"required"`
 }
 
-// Post Creates a new user
+// Post godoc
+// @Summary Register
+// @Description Creates a new user account
+// @Tags user
+// @Accept json
+// @Produce json
+// @Param body body userBody true "User registration details"
+// @Success 201 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /auth/user [post]
 func (u *UserController) Post(c *gin.Context) {
 	var body userBody
 	if err := c.ShouldBindJSON(&body); err != nil {
