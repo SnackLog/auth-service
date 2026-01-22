@@ -85,7 +85,7 @@ paths:
               type: string
             type: object
       security:
-      - ApiKeyAuth: []
+      - BearerAuth: []
       summary: Logout
       tags:
       - session
@@ -100,8 +100,10 @@ paths:
             additionalProperties:
               type: string
             type: object
+        "401":
+          description: Unauthorized
       security:
-      - ApiKeyAuth: []
+      - BearerAuth: []
       summary: Get session info
       tags:
       - session
@@ -154,6 +156,8 @@ paths:
       responses:
         "204":
           description: No Content
+        "401":
+          description: Unauthorized
         "500":
           description: Internal Server Error
           schema:
@@ -161,7 +165,7 @@ paths:
               type: string
             type: object
       security:
-      - ApiKeyAuth: []
+      - BearerAuth: []
       summary: Delete user
       tags:
       - user
@@ -174,6 +178,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/userhandler.userGetResponse'
+        "401":
+          description: Unauthorized
         "404":
           description: Not Found
           schema:
@@ -187,7 +193,7 @@ paths:
               type: string
             type: object
       security:
-      - ApiKeyAuth: []
+      - BearerAuth: []
       summary: Get user profile
       tags:
       - user
@@ -213,6 +219,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+        "401":
+          description: Unauthorized
         "500":
           description: Internal Server Error
           schema:
@@ -220,7 +228,7 @@ paths:
               type: string
             type: object
       security:
-      - ApiKeyAuth: []
+      - BearerAuth: []
       summary: Update user profile
       tags:
       - user
@@ -259,4 +267,9 @@ paths:
       summary: Register
       tags:
       - user
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

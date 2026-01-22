@@ -18,7 +18,7 @@ type deleteSessionBody struct {
 // @Tags session
 // @Accept json
 // @Produce json
-// @Security ApiKeyAuth
+// @Security BearerAuth
 // @Param body body deleteSessionBody true "Token to revoke"
 // @Success 204 "No Content"
 // @Failure 400 {object} map[string]string

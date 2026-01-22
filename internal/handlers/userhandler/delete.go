@@ -12,8 +12,9 @@ import (
 // @Description Deletes the authenticated user account
 // @Tags user
 // @Produce json
-// @Security ApiKeyAuth
+// @Security BearerAuth
 // @Success 204 "No Content"
+// @Failure 401 "Unauthorized"
 // @Failure 500 {object} map[string]string
 // @Router /auth/user [delete]
 func (u *UserController) Delete(c *gin.Context) {

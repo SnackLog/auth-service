@@ -17,8 +17,9 @@ type userGetResponse struct {
 // @Description Retrieves the profile of the authenticated user
 // @Tags user
 // @Produce json
-// @Security ApiKeyAuth
+// @Security BearerAuth
 // @Success 200 {object} userGetResponse
+// @Failure 401 "Unauthorized"
 // @Failure 404 {object} map[string]string
 // @Failure 500 {object} map[string]string
 // @Router /auth/user [get]

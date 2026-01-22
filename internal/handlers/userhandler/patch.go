@@ -18,10 +18,11 @@ type userPatchBody struct {
 // @Tags user
 // @Accept json
 // @Produce json
-// @Security ApiKeyAuth
+// @Security BearerAuth
 // @Param body body userPatchBody true "Fields to update"
 // @Success 204 "No Content"
 // @Failure 400 {object} map[string]string
+// @Failure 401 "Unauthorized"
 // @Failure 500 {object} map[string]string
 // @Router /auth/user [patch]
 func (u *UserController) Patch(c *gin.Context) {
