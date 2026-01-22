@@ -16,7 +16,18 @@ type loginRequestBody struct {
 	Password string `json:"password" binding:"required"`
 }
 
-// Post Creates a new session
+// Post godoc
+// @Summary Login
+// @Description Authenticates a user and returns a token
+// @Tags session
+// @Accept json
+// @Produce json
+// @Param body body loginRequestBody true "Login credentials"
+// @Success 200 {object} map[string]string
+// @Failure 400 {object} map[string]string
+// @Failure 401 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /auth/session [post]
 func (s *SessionController) Post(c *gin.Context) {
 	var body loginRequestBody
 	if err := c.ShouldBindJSON(&body); err != nil {

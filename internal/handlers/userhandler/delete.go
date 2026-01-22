@@ -7,7 +7,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Delete Deletes an existing user
+// Delete godoc
+// @Summary Delete user
+// @Description Deletes the authenticated user account
+// @Tags user
+// @Produce json
+// @Security ApiKeyAuth
+// @Success 204 "No Content"
+// @Failure 500 {object} map[string]string
+// @Router /auth/user [delete]
 func (u *UserController) Delete(c *gin.Context) {
 	username := c.GetString("username")
 

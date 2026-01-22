@@ -6,7 +6,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Get Retrieves session by it's token and returns relevant information
+// Get godoc
+// @Summary Get session info
+// @Description Retrieves session information by its token
+// @Tags session
+// @Produce json
+// @Security ApiKeyAuth
+// @Success 200 {object} map[string]string
+// @Router /auth/session [get]
 func (s *SessionController) Get(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"username": c.GetString("username")})
 }
