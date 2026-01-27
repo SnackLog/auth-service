@@ -5,6 +5,7 @@ import (
 
 	"github.com/SnackLog/auth-service/internal/crypto"
 	revokedtokens "github.com/SnackLog/auth-service/internal/database/revoked_tokens"
+	"github.com/SnackLog/auth-service/internal/handlers"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,29 +22,29 @@ type deleteSessionBody struct {
 // @Security BearerAuth
 // @Param body body deleteSessionBody true "Token to revoke"
 // @Success 204 "No Content"
-// @Failure 400 {object} map[string]string
-// @Failure 401 {object} map[string]string
-// @Failure 500 {object} map[string]string
+// @Failure 400 {object} handlers.Error
+// @Failure 401 {object} handlers.Error
+// @Failure 500 {object} handlers.Error
 // @Router /auth/session [delete]
 func (s *SessionController) Delete(c *gin.Context) {
 	var body deleteSessionBody
 	if err := c.ShouldBindJSON(&body); err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
+		c.AbortWithStatusJSON(http.StatusBadRequest, handlers.Error{Error: "Invalid request body"})
 		return
 	}
 	claims, err := crypto.ParseAndValidateToken(body.Token)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+		c.AbortWithStatusJSON(http.StatusUnauthorized, handlers.Error{Error: "Invalid token"})
 		return
 	}
 	if claims.Subject != c.GetString("username") {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+		c.AbortWithStatusJSON(http.StatusUnauthorized, handlers.Error{Error: "Invalid token"})
 		return
 	}
 
 	_, err = revokedtokens.RevokeToken(s.DB, claims.ID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to revoke token"})
+		c.JSON(http.StatusInternalServerError, handlers.Error{Error: "Failed to revoke token"})
 		return
 	}
 

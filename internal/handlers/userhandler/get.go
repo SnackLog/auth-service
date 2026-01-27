@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/SnackLog/auth-service/internal/database/user"
+	"github.com/SnackLog/auth-service/internal/handlers"
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,18 +21,18 @@ type userGetResponse struct {
 // @Security BearerAuth
 // @Success 200 {object} userGetResponse
 // @Failure 401 "Unauthorized"
-// @Failure 404 {object} map[string]string
-// @Failure 500 {object} map[string]string
+// @Failure 404 {object} handlers.Error
+// @Failure 500 {object} handlers.Error
 // @Router /auth/user [get]
 func (u *UserController) Get(c *gin.Context) {
 	username := c.GetString("username")
 	user, err := user.GetUserByUsername(u.DB, username)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve user"})
+		c.JSON(http.StatusInternalServerError, handlers.Error{Error: "Failed to retrieve user"})
 		return
 	}
 	if user == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		c.JSON(http.StatusNotFound, handlers.Error{Error: "User not found"})
 		return
 	}
 

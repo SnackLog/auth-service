@@ -8,6 +8,7 @@ import (
 
 	"github.com/SnackLog/auth-service/internal/crypto"
 	"github.com/SnackLog/auth-service/internal/database/user"
+	"github.com/SnackLog/auth-service/internal/handlers"
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,14 +26,14 @@ type userBody struct {
 // @Produce json
 // @Param body body userBody true "User registration details"
 // @Success 201 {object} map[string]string
-// @Failure 400 {object} map[string]string
-// @Failure 500 {object} map[string]string
+// @Failure 400 {object} handlers.Error
+// @Failure 500 {object} handlers.Error
 // @Router /auth/user [post]
 func (u *UserController) Post(c *gin.Context) {
 	var body userBody
 	if err := c.ShouldBindJSON(&body); err != nil {
 		c.Error(err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
+		c.JSON(http.StatusBadRequest, handlers.Error{Error: "Invalid request body"})
 		return
 	}
 
@@ -52,7 +53,7 @@ func (u *UserController) Post(c *gin.Context) {
 	}
 
 	if err := user.CreateUser(u.DB, userStruct); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
+		c.JSON(http.StatusInternalServerError, handlers.Error{Error: "Failed to create user"})
 		return
 	}
 
