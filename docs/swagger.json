@@ -27,10 +27,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/sessionhandler.SessionGetResponse"
                         }
                     },
                     "401": {
@@ -65,10 +62,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/sessionhandler.loginResponseBody"
                         }
                     },
                     "400": {
@@ -208,13 +202,7 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
+                        "description": "Created"
                     },
                     "400": {
                         "description": "Bad Request",
@@ -319,6 +307,14 @@
                 }
             }
         },
+        "sessionhandler.SessionGetResponse": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "sessionhandler.deleteSessionBody": {
             "type": "object",
             "required": [
@@ -341,6 +337,14 @@
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "sessionhandler.loginResponseBody": {
+            "type": "object",
+            "properties": {
+                "token": {
                     "type": "string"
                 }
             }

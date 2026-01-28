@@ -17,6 +17,10 @@ type loginRequestBody struct {
 	Password string `json:"password" binding:"required"`
 }
 
+type loginResponseBody struct {
+	Token string `json:"token"`
+}
+
 // Post godoc
 // @Summary Login
 // @Description Authenticates a user and returns a token
@@ -24,7 +28,7 @@ type loginRequestBody struct {
 // @Accept json
 // @Produce json
 // @Param body body loginRequestBody true "Login credentials"
-// @Success 200 {object} map[string]string
+// @Success 200 {object} loginResponseBody 
 // @Failure 400 {object} handlers.Error
 // @Failure 401 {object} handlers.Error
 // @Failure 500 {object} handlers.Error
@@ -52,7 +56,9 @@ func (s *SessionController) Post(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, handlers.Error{Error: "failed to sign token for authentication"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"token": userToken})
+	c.JSON(http.StatusOK, loginResponseBody{
+		Token: userToken,
+	})
 }
 
 func (s *SessionController) isCredentialsValid(username, password string) (bool, error) {

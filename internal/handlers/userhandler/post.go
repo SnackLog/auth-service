@@ -25,7 +25,7 @@ type userBody struct {
 // @Accept json
 // @Produce json
 // @Param body body userBody true "User registration details"
-// @Success 201 {object} map[string]string
+// @Success 201 "Created"
 // @Failure 400 {object} handlers.Error
 // @Failure 500 {object} handlers.Error
 // @Router /auth/user [post]
@@ -57,5 +57,5 @@ func (u *UserController) Post(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "User created successfully"})
+	c.Status(http.StatusCreated)
 }
