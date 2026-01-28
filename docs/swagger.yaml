@@ -5,6 +5,11 @@ definitions:
       error:
         type: string
     type: object
+  sessionhandler.SessionGetResponse:
+    properties:
+      username:
+        type: string
+    type: object
   sessionhandler.deleteSessionBody:
     properties:
       token:
@@ -21,6 +26,11 @@ definitions:
     required:
     - password
     - username
+    type: object
+  sessionhandler.loginResponseBody:
+    properties:
+      token:
+        type: string
     type: object
   userhandler.userBody:
     properties:
@@ -96,9 +106,7 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            $ref: '#/definitions/sessionhandler.SessionGetResponse'
         "401":
           description: Unauthorized
       security:
@@ -123,9 +131,7 @@ paths:
         "200":
           description: OK
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            $ref: '#/definitions/sessionhandler.loginResponseBody'
         "400":
           description: Bad Request
           schema:
@@ -231,10 +237,6 @@ paths:
       responses:
         "201":
           description: Created
-          schema:
-            additionalProperties:
-              type: string
-            type: object
         "400":
           description: Bad Request
           schema:

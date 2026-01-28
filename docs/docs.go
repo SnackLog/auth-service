@@ -34,10 +34,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/sessionhandler.SessionGetResponse"
                         }
                     },
                     "401": {
@@ -72,10 +69,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/sessionhandler.loginResponseBody"
                         }
                     },
                     "400": {
@@ -215,13 +209,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
+                        "description": "Created"
                     },
                     "400": {
                         "description": "Bad Request",
@@ -326,6 +314,14 @@ const docTemplate = `{
                 }
             }
         },
+        "sessionhandler.SessionGetResponse": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "sessionhandler.deleteSessionBody": {
             "type": "object",
             "required": [
@@ -348,6 +344,14 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "sessionhandler.loginResponseBody": {
+            "type": "object",
+            "properties": {
+                "token": {
                     "type": "string"
                 }
             }
