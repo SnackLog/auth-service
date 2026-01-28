@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type SessionGetResponse struct {
+type sessionGetResponse struct {
 	Username string `json:"username"`
 }
 
@@ -20,7 +20,7 @@ type SessionGetResponse struct {
 // @Failure 401 "Unauthorized"
 // @Router /auth/session [get]
 func (s *SessionController) Get(c *gin.Context) {
-	c.JSON(http.StatusOK, SessionGetResponse{
+	c.JSON(http.StatusOK, sessionGetResponse{
 		Username: c.GetString("username"),
 	})
 }
