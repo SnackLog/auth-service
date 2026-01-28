@@ -28,7 +28,7 @@ type loginResponseBody struct {
 // @Accept json
 // @Produce json
 // @Param body body loginRequestBody true "Login credentials"
-// @Success 200 {object} map[string]string
+// @Success 200 {object} loginResponseBody 
 // @Failure 400 {object} handlers.Error
 // @Failure 401 {object} handlers.Error
 // @Failure 500 {object} handlers.Error
