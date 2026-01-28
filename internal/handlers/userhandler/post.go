@@ -57,5 +57,5 @@ func (u *UserController) Post(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "User created successfully"})
+	c.Status(http.StatusCreated)
 }
