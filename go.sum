@@ -10,8 +10,8 @@ github.com/PuerkitoBio/purell v1.1.1 h1:WEQqlqaGbrPkxLJWfBwQmfEAE1Z7ONdDLqrN38tN
 github.com/PuerkitoBio/purell v1.1.1/go.mod h1:c11w/QuzBsJSee3cPx9rAFu61PvFxuPbtSwDGJws/X0=
 github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 h1:d+Bc7a5rLufV/sSk/8dngufqelfh6jnri85riMAaF/M=
 github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578/go.mod h1:uGdkoq3SwY9Y+13GIhn11/XLaGBb4BfwItxLd5jeuXE=
-github.com/SnackLog/database-config-lib v0.2.0 h1:lnuO/nWfVdR4M6iIDt/6/UE8huMwwzQ/AHY4lw4D40M=
-github.com/SnackLog/database-config-lib v0.2.0/go.mod h1:997JZ6UfTIC+ggf0cYUenAEI+bLhl3csKpnkss12BW8=
+github.com/SnackLog/database-config-lib v0.2.1 h1:TNKVzpyRPWxVYavF9IPK1g4wPkxkYyeWidzWveWMY38=
+github.com/SnackLog/database-config-lib v0.2.1/go.mod h1:997JZ6UfTIC+ggf0cYUenAEI+bLhl3csKpnkss12BW8=
 github.com/SnackLog/service-config-lib v0.2.0 h1:LebIe1sBFSK+uUgjHxLQ3qJDZUfTYXr4Rxsm2RBPjZI=
 github.com/SnackLog/service-config-lib v0.2.0/go.mod h1:FekzUIjuiOjTfOisRBFt8sBS+fOW8nGrAxNPoxY7Yo0=
 github.com/bytedance/sonic v1.14.0 h1:/OfKt8HFw0kh2rj8N0F6C/qPGRESq0BbaNZgcNXXzQQ=
