@@ -5,11 +5,6 @@ definitions:
       error:
         type: string
     type: object
-  sessionhandler.SessionGetResponse:
-    properties:
-      username:
-        type: string
-    type: object
   sessionhandler.deleteSessionBody:
     properties:
       token:
@@ -32,31 +27,64 @@ definitions:
       token:
         type: string
     type: object
+  sessionhandler.sessionGetResponse:
+    properties:
+      username:
+        type: string
+    type: object
   userhandler.userBody:
     properties:
+      activity_level:
+        type: number
+      birthdate:
+        type: string
       display_name:
         type: string
       password:
         minLength: 8
         type: string
+      sex:
+        type: string
       username:
         type: string
+      weight:
+        type: number
     required:
+    - activity_level
+    - birthdate
     - display_name
     - password
+    - sex
     - username
+    - weight
     type: object
   userhandler.userGetResponse:
     properties:
+      activity_level:
+        type: number
+      birthdate:
+        type: string
       display_name:
+        type: string
+      sex:
         type: string
       username:
         type: string
+      weight:
+        type: number
     type: object
   userhandler.userPatchBody:
     properties:
+      activityLevel:
+        type: number
+      birthdate:
+        type: string
       displayName:
         type: string
+      sex:
+        type: string
+      weight:
+        type: number
     type: object
 info:
   contact: {}
@@ -106,7 +134,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/sessionhandler.SessionGetResponse'
+            $ref: '#/definitions/sessionhandler.sessionGetResponse'
         "401":
           description: Unauthorized
       security:

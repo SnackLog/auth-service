@@ -34,7 +34,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/sessionhandler.SessionGetResponse"
+                            "$ref": "#/definitions/sessionhandler.sessionGetResponse"
                         }
                     },
                     "401": {
@@ -314,14 +314,6 @@ const docTemplate = `{
                 }
             }
         },
-        "sessionhandler.SessionGetResponse": {
-            "type": "object",
-            "properties": {
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
         "sessionhandler.deleteSessionBody": {
             "type": "object",
             "required": [
@@ -356,14 +348,32 @@ const docTemplate = `{
                 }
             }
         },
+        "sessionhandler.sessionGetResponse": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "userhandler.userBody": {
             "type": "object",
             "required": [
+                "activity_level",
+                "birthdate",
                 "display_name",
                 "password",
-                "username"
+                "sex",
+                "username",
+                "weight"
             ],
             "properties": {
+                "activity_level": {
+                    "type": "number"
+                },
+                "birthdate": {
+                    "type": "string"
+                },
                 "display_name": {
                     "type": "string"
                 },
@@ -371,27 +381,57 @@ const docTemplate = `{
                     "type": "string",
                     "minLength": 8
                 },
+                "sex": {
+                    "type": "string"
+                },
                 "username": {
                     "type": "string"
+                },
+                "weight": {
+                    "type": "number"
                 }
             }
         },
         "userhandler.userGetResponse": {
             "type": "object",
             "properties": {
+                "activity_level": {
+                    "type": "number"
+                },
+                "birthdate": {
+                    "type": "string"
+                },
                 "display_name": {
+                    "type": "string"
+                },
+                "sex": {
                     "type": "string"
                 },
                 "username": {
                     "type": "string"
+                },
+                "weight": {
+                    "type": "number"
                 }
             }
         },
         "userhandler.userPatchBody": {
             "type": "object",
             "properties": {
+                "activityLevel": {
+                    "type": "number"
+                },
+                "birthdate": {
+                    "type": "string"
+                },
                 "displayName": {
                     "type": "string"
+                },
+                "sex": {
+                    "type": "string"
+                },
+                "weight": {
+                    "type": "number"
                 }
             }
         }
