@@ -14,7 +14,7 @@ type userPatchBody struct {
 	DisplayName *string `json:"displayName,omitempty"`
 
 	Birthdate     *time.Time `json:"birthdate,omitempty"`
-	Sex           *string    `json:"sex,omitempty"`
+	Sex           *string    `json:"sex,omitempty" binding:"omitempty,len=1"`
 	Weight        *float64   `json:"weight,omitempty"`
 	ActivityLevel *float64   `json:"activityLevel,omitempty"`
 }
