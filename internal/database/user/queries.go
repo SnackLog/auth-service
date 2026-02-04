@@ -26,7 +26,7 @@ func GetUserByUsername(db *sql.DB, username string) (*User, error) {
 // CreateUser creates a new user
 func CreateUser(db *sql.DB, user *User) error {
 	// insert into table users
-	sqlStatement := `INSERT INTO users (username, display_name, password_hash, birthdate, sex, weight, activity_level) VALUES ($1, $2, $3)`
+	sqlStatement := `INSERT INTO users (username, display_name, password_hash, birthdate, sex, weight, activity_level) VALUES ($1, $2, $3, $4, $5, $6, $7)`
 	_, err := db.Exec(sqlStatement, user.Username, user.DisplayName, user.PasswordHash, user.Birthdate, user.Sex, user.Weight, user.ActivityLevel)
 	if err != nil {
 		return fmt.Errorf("failed to create user: %v", err)
