@@ -13,10 +13,10 @@ type userGetResponse struct {
 	Username    string `json:"username"`
 	DisplayName string `json:"display_name"`
 
-	Birthdate     time.Time `json:"birthdate"`
-	Sex           string    `json:"sex"`
-	Weight        float64   `json:"weight"`
-	ActivityLevel float64   `json:"activity_level"`
+	Birthdate     *time.Time `json:"birthdate"`
+	Sex           *string    `json:"sex"`
+	Weight        *float64   `json:"weight"`
+	ActivityLevel *float64   `json:"activity_level"`
 }
 
 // Get godoc

@@ -55,10 +55,10 @@ func (u *UserController) Post(c *gin.Context) {
 		Username:      body.Username,
 		DisplayName:   body.DisplayName,
 		PasswordHash:  crypto.HashPassword(body.Password, salt),
-		Birthdate:     body.Birthdate,
-		Sex:           body.Sex,
-		Weight:        body.Weight,
-		ActivityLevel: body.ActivityLevel,
+		Birthdate:     &body.Birthdate,
+		Sex:           &body.Sex,
+		Weight:        &body.Weight,
+		ActivityLevel: &body.ActivityLevel,
 	}
 
 	if err := user.CreateUser(u.DB, userStruct); err != nil {

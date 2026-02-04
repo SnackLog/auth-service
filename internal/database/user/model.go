@@ -8,8 +8,8 @@ type User struct {
 	Username      string
 	DisplayName   string
 	PasswordHash  string
-	Birthdate     time.Time
-	Sex           string
-	Weight        float64
-	ActivityLevel float64
+	Birthdate     *time.Time
+	Sex           *string
+	Weight        *float64
+	ActivityLevel *float64
 }
