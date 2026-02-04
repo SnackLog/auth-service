@@ -3,6 +3,7 @@ package userhandler
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/SnackLog/auth-service/internal/database/user"
 	"github.com/SnackLog/auth-service/internal/handlers"
@@ -11,6 +12,11 @@ import (
 
 type userPatchBody struct {
 	DisplayName *string `json:"displayName,omitempty"`
+
+	Birthdate     *time.Time `json:"birthdate,omitempty"`
+	Sex           *string    `json:"sex,omitempty" binding:"omitempty,len=1"`
+	Weight        *float64   `json:"weight,omitempty"`
+	ActivityLevel *float64   `json:"activityLevel,omitempty"`
 }
 
 // Patch godoc
@@ -44,18 +50,38 @@ func (u *UserController) Patch(c *gin.Context) {
 }
 
 func (u *UserController) updateUser(patchBody userPatchBody, username string) error {
+	tx, err := u.DB.Begin()
+	if err != nil {
+		return fmt.Errorf("failed to begin transaction: %v", err)
+	}
+	defer tx.Rollback()
 	if patchBody.DisplayName != nil {
-		if err := u.updateDisplayName(username, *patchBody.DisplayName); err != nil {
+		if err := user.UpdateDisplayName(tx, username, *patchBody.DisplayName); err != nil {
 			return fmt.Errorf("failed to update display name: %v", err)
 		}
 	}
-	return nil
-}
-
-func (u *UserController) updateDisplayName(username, displayName string) error {
-	err := user.UpdateDisplayName(u.DB, username, displayName)
-	if err != nil {
-		return fmt.Errorf("request failed: %v", err)
+	if patchBody.Birthdate != nil {
+		if err := user.UpdateBirthdate(tx, username, *patchBody.Birthdate); err != nil {
+			return fmt.Errorf("failed to update birthdate: %v", err)
+		}
+	}
+	if patchBody.Sex != nil {
+		if err := user.UpdateSex(tx, username, *patchBody.Sex); err != nil {
+			return fmt.Errorf("failed to update sex: %v", err)
+		}
+	}
+	if patchBody.Weight != nil {
+		if err := user.UpdateWeight(tx, username, *patchBody.Weight); err != nil {
+			return fmt.Errorf("failed to update weight: %v", err)
+		}
+	}
+	if patchBody.ActivityLevel != nil {
+		if err := user.UpdateActivityLevel(tx, username, *patchBody.ActivityLevel); err != nil {
+			return fmt.Errorf("failed to update activity level: %v", err)
+		}
+	}
+	if err := tx.Commit(); err != nil {
+		return fmt.Errorf("failed to commit transaction: %v", err)
 	}
 	return nil
 }

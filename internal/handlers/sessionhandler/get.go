@@ -16,7 +16,7 @@ type sessionGetResponse struct {
 // @Tags session
 // @Produce json
 // @Security BearerAuth
-// @Success 200 {object} SessionGetResponse
+// @Success 200 {object} sessionGetResponse
 // @Failure 401 "Unauthorized"
 // @Router /auth/session [get]
 func (s *SessionController) Get(c *gin.Context) {
