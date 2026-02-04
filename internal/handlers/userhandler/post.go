@@ -62,6 +62,7 @@ func (u *UserController) Post(c *gin.Context) {
 	}
 
 	if err := user.CreateUser(u.DB, userStruct); err != nil {
+		log.Println(err)
 		c.JSON(http.StatusInternalServerError, handlers.Error{Error: "Failed to create user"})
 		return
 	}
