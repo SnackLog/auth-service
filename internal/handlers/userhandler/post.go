@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"syscall"
+	"time"
 
 	"github.com/SnackLog/auth-service/internal/crypto"
 	"github.com/SnackLog/auth-service/internal/database/user"
@@ -16,6 +17,11 @@ type userBody struct {
 	Username    string `json:"username" binding:"required"`
 	Password    string `json:"password" binding:"required,min=8"`
 	DisplayName string `json:"display_name" binding:"required"`
+
+	Birthdate     time.Time `json:"birthdate" binding:"required"`
+	Sex           string    `json:"sex" binding:"required,len=1"`
+	Weight        float64   `json:"weight" binding:"required"`
+	ActivityLevel float64   `json:"activity_level" binding:"required"`
 }
 
 // Post godoc
@@ -45,11 +51,14 @@ func (u *UserController) Post(c *gin.Context) {
 		syscall.Kill(syscall.Getpid(), syscall.SIGABRT)
 	}
 
-
 	userStruct := &user.User{
-		Username:     body.Username,
-		DisplayName:  body.DisplayName,
-		PasswordHash: crypto.HashPassword(body.Password, salt),
+		Username:      body.Username,
+		DisplayName:   body.DisplayName,
+		PasswordHash:  crypto.HashPassword(body.Password, salt),
+		Birthdate:     body.Birthdate,
+		Sex:           body.Sex,
+		Weight:        body.Weight,
+		ActivityLevel: body.ActivityLevel,
 	}
 
 	if err := user.CreateUser(u.DB, userStruct); err != nil {

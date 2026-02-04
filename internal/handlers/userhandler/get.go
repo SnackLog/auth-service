@@ -2,6 +2,7 @@ package userhandler
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/SnackLog/auth-service/internal/database/user"
 	"github.com/SnackLog/auth-service/internal/handlers"
@@ -11,6 +12,11 @@ import (
 type userGetResponse struct {
 	Username    string `json:"username"`
 	DisplayName string `json:"display_name"`
+
+	Birthdate     time.Time `json:"birthdate"`
+	Sex           string    `json:"sex"`
+	Weight        float64   `json:"weight"`
+	ActivityLevel float64   `json:"activity_level"`
 }
 
 // Get godoc
@@ -37,9 +43,14 @@ func (u *UserController) Get(c *gin.Context) {
 	}
 
 	response := userGetResponse{
-		Username:    user.Username,
-		DisplayName: user.DisplayName,
+		Username:      user.Username,
+		DisplayName:   user.DisplayName,
+		Birthdate:     user.Birthdate,
+		Sex:           user.Sex,
+		Weight:        user.Weight,
+		ActivityLevel: user.ActivityLevel,
 	}
+
 	c.JSON(http.StatusOK, response)
 
 }
