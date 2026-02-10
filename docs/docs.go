@@ -418,13 +418,13 @@ const docTemplate = `{
         "userhandler.userPatchBody": {
             "type": "object",
             "properties": {
-                "activityLevel": {
+                "activity_level": {
                     "type": "number"
                 },
                 "birthdate": {
                     "type": "string"
                 },
-                "displayName": {
+                "display_name": {
                     "type": "string"
                 },
                 "sex": {

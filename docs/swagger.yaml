@@ -75,11 +75,11 @@ definitions:
     type: object
   userhandler.userPatchBody:
     properties:
-      activityLevel:
+      activity_level:
         type: number
       birthdate:
         type: string
-      displayName:
+      display_name:
         type: string
       sex:
         type: string
