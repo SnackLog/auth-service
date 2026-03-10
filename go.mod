@@ -3,7 +3,7 @@ module github.com/SnackLog/auth-service
 go 1.25.5
 
 require (
-	github.com/SnackLog/database-config-lib v0.2.0
+	github.com/SnackLog/database-config-lib v0.2.1
 	github.com/SnackLog/service-config-lib v0.2.0
 	github.com/gin-contrib/cors v1.7.6
 	github.com/gin-gonic/gin v1.11.0
